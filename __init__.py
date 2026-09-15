@@ -2,6 +2,7 @@ import json
 import re
 import time
 import unicodedata
+import uuid
 from collections.abc import Iterable, Mapping
 from queue import Empty, Queue
 from threading import Event
@@ -15,8 +16,11 @@ from calibre.ebooks.metadata.sources.base import Source
 from calibre.utils.logging import Log
 
 
-GUEST_CART_COOKIE = 'iv_guest_cart=fc83d63d-310d-4224-8458-98e712bf2b48'
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+
+
+def get_guest_cart_cookie() -> str:
+    return f'iv_guest_cart={uuid.uuid4()}'
 
 
 def levenshtein_distance(s1, s2):
@@ -226,6 +230,12 @@ class Evrit(Source):
     cached_cover_url_is_reliable = True
     has_html_comments = True
 
+    @property
+    def guest_cart_cookie(self) -> str:
+        if not hasattr(self, '_guest_cart_cookie') or not self._guest_cart_cookie:
+            self._guest_cart_cookie = get_guest_cart_cookie()
+        return self._guest_cart_cookie
+
     def get_book_url(self, identifiers: Mapping[str, str]) \
             -> tuple[str, str, str] | None:
         evrit_id = identifiers.get('evrit', None)
@@ -315,7 +325,7 @@ class Evrit(Source):
             'Origin': 'https://www.e-vrit.co.il',
             'Referer': 'https://www.e-vrit.co.il/',
             'User-Agent': USER_AGENT,
-            'Cookie': GUEST_CART_COOKIE
+            'Cookie': self.guest_cart_cookie
         }
 
         try:
@@ -393,7 +403,7 @@ class Evrit(Source):
                 'User-Agent': USER_AGENT,
                 'Accept': 'application/json, text/plain, */*',
                 'Referer': product_url,
-                'Cookie': GUEST_CART_COOKIE
+                'Cookie': self.guest_cart_cookie
             }
             extra_req = mechanize.Request(extra_url, headers=extra_headers)
             extra_resp = self.browser.open_novisit(extra_req, timeout=timeout)
