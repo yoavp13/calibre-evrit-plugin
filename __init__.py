@@ -207,11 +207,16 @@ def split_queries(query: str,
     return queries
 
 
+__license__ = 'GPL v3'
+__copyright__ = '2023, Hebrew Reader <hebrew.reader.calibre@gmail.com>; 2026, yoavp13'
+__docformat__ = 'restructuredtext en'
+
+
 class Evrit(Source):
     name = 'Evrit'
-    description = 'Get metadata information from Evrit.'
+    description = 'Get metadata and covers from Evrit. Maintained at https://github.com/yoavp13/calibre-evrit-plugin'
     capabilities = frozenset(['identify', 'cover'])
-    author = 'Hebrew Reader (maintained by Calibre Community)'
+    author = 'Hebrew Reader (maintained by yoavp13)'
     version = (2, 0, 0)
     can_get_multiple_covers = False
     touched_fields = frozenset(
