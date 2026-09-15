@@ -40,3 +40,6 @@
  - Extract rich description, publish date/year, tags, translators, and series from /api/product/extra with guest cart session.
  - High-resolution cover retrieval (up to 1200px) from Cloudflare CDN / og:image.
  - Add robust error handling so network or parsing glitches do not crash the identify run.
+
+2.0.1 - 2026-09-15
+ - Generate dynamic guest cart session cookies (uuid4) per session to avoid shared static identifiers.

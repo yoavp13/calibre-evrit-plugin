@@ -221,7 +221,7 @@ class Evrit(Source):
     description = 'Get metadata and covers from Evrit. Maintained at https://github.com/yoavp13/calibre-evrit-plugin'
     capabilities = frozenset(['identify', 'cover'])
     author = 'Hebrew Reader (maintained by yoavp13)'
-    version = (2, 0, 0)
+    version = (2, 0, 1)
     can_get_multiple_covers = False
     touched_fields = frozenset(
         ['title', 'authors', 'tags', 'publisher', 'comments',
