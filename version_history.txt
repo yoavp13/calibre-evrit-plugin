@@ -1,0 +1,42 @@
+1.0.0 - 2023-01-10
+ - Initial release
+ - Can retrieve title, authors, comments, publisher, publication date, tags, ratings and cover.
+ - The identifier used is "evrit". It will show in the details as "עברית".
+
+1.1.0 - 2023-01-13
+ - Fix identification of author names with unicode control characters, e.g. U+200E Left-to-Right Mark (LRM).
+ - More lenient matching: can ignore optional 'אהוי' letters in ktiv haser, e.g. "ג'ף פורשאו" vs. "ג'ף פורשו"
+ - Ignore punctuation when identifying titles, e.g. question mark.
+ - Partial title matching, e.g. 'עקצן איש העקרב' vs. 'השרביט והחרב 18 - עקצן איש העקרב'.
+ - Allow matching titles with extra tokens, e.g. 'ארו שאה ונקטר האלמוות' vs. 'ארו שאה 5 ונקטר האלמוות'.
+ - Allow matching authors with extra tokens, e.g. 'ליאת יקיר' vs. 'ד"ר ליאת יקיר'.
+ - Allow matching when not all authors are present.
+
+1.2.0 - 2023-01-16
+ - Improve high-res cover detection.
+ - Server GetCustomerProductsDetails api was changed from GET to POST. Previous plugin versions no longer work.
+
+1.3.0 - 2023-02-18
+ - Support titles with '/' character.
+ - Allow matching titles with subtitles, e.g. 'הארנק והחרב: המהפכה המשפטית ושברה' vs. 'הארנק והחרב'.
+ - Speed up matching.
+ - Support titles with Geresh (') character.
+ - Support titles with Gershayim (") character.
+ - Support matching titles which changed punctuation.
+ - Fix author matching bug.
+ - Renamed plugin from "Evrit metadata source" to "Evrit".
+
+1.4.0 - 2023-06-16
+ - Fix socket exception ("A non-blocking socket operation could not be completed immediately on send") caused by sending timeout=0.
+ - Using edit distance as relevance score to distinguish between similar matching titles.
+ - Avoid repeated calls with identical query.
+ - Optimistically try querying the full title before doing partial lookups.
+ - Obtain additional tags from Evrit's product page.
+
+2.0.0 - 2026-09-15
+ - Major release: Full rewrite for the new Evrit Next.js platform.
+ - Updated search to use new /api/search endpoint with required headers and WAF compatibility.
+ - Extract book metadata (title, author, publisher, rating, cover) from JSON-LD (schema.org) structured data.
+ - Extract rich description, publish date/year, tags, translators, and series from /api/product/extra with guest cart session.
+ - High-resolution cover retrieval (up to 1200px) from Cloudflare CDN / og:image.
+ - Add robust error handling so network or parsing glitches do not crash the identify run.
